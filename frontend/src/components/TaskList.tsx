@@ -4,37 +4,35 @@ import { Task } from '../models/Task';
 
 interface TaskListProps {
   tasks: Task[];
+  onTaskClick: (task: Task) => void; // Callback for task click
 }
 
-const TaskList: React.FC<TaskListProps> = ({ tasks }) => {
+const TaskList: React.FC<TaskListProps> = ({ tasks, onTaskClick }) => {
   return (
-    <div className="p-4">
-      <h2 className="text-xl font-bold mb-4">Task List</h2>
+    <div>
+      <h2 className="task-list-heading">Task List</h2>
       {tasks.length === 0 ? (
-        <p>No tasks found.</p>
+        <p className="no-tasks-message">No tasks found.</p>
       ) : (
-        <table className="w-full border-collapse border border-gray-300">
-          <thead>
-            <tr className="bg-gray-100">
-              <th className="p-2 border">Title</th>
-              <th className="p-2 border">Description</th>
-              <th className="p-2 border">Status</th>
-              <th className="p-2 border">Created</th>
-              <th className="p-2 border">Due</th>
-            </tr>
-          </thead>
-          <tbody>
-            {tasks.map((task) => (
-              <tr key={task.id}>
-                <td className="p-2 border">{task.title}</td>
-                <td className="p-2 border">{task.description}</td>
-                <td className="p-2 border">{task.status}</td>
-                <td className="p-2 border">{new Date(task.createdDate).toLocaleString()}</td>
-                <td className="p-2 border">{new Date(task.dueDate).toLocaleString()}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <div className="task-list">
+          {tasks.map((task) => (
+            <div
+              className="task-card"
+              key={task.id}
+              onClick={() => onTaskClick(task)} // Handle click event
+              style={{ cursor: 'pointer' }} // Add pointer cursor for better UX
+            >
+              <h3 className="task-title">{task.title}</h3>
+              <p className="task-description">{task.description}</p>
+              <p className="task-status">
+                <strong>Status:</strong> {task.status}
+              </p>
+              <p className="task-dates">
+                <strong>Due:</strong> {new Date(task.dueDate).toLocaleString()}
+              </p>
+            </div>
+          ))}
+        </div>
       )}
     </div>
   );
