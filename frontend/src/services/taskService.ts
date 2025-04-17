@@ -29,12 +29,4 @@ export const taskService = {
   }
 };
 
-export const getAllTasks = async (): Promise<Task[]> => {
-  try {
-    const response = await axios.get<Task[]>(BASE_URL);
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching tasks:', error);
-    throw error;
-  }
-};
+

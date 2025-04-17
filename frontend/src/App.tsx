@@ -37,6 +37,26 @@ function App() {
     }
   };
 
+  const handleTaskDelete = async (taskId: number) => {
+    try {
+      await taskService.delete(taskId); // Call the backend API to delete the task
+      setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId)); // Update the task list
+      setToastMessage('Task deleted successfully!'); // Show success toast
+    } catch (error) {
+      console.error('Failed to delete task:', error);
+      setToastMessage('Failed to delete task.'); // Show failure toast
+    }
+  };
+
+  const handleStatusUpdate = (updatedTask: Task) => {
+    setTasks((prevTasks) =>
+      prevTasks.map((task) =>
+        task.id === updatedTask.id ? updatedTask : task
+      )
+    );
+    setToastMessage('Task status updated successfully!');
+  };
+
   const handleTaskClick = (task: Task) => {
     setSelectedTask(task);
   };
@@ -56,7 +76,11 @@ function App() {
             Create Task
           </button>
         </div>
-        <TaskList tasks={tasks} onTaskClick={handleTaskClick} />
+        <TaskList
+          tasks={tasks}
+          onTaskClick={handleTaskClick}
+          onTaskDelete={handleTaskDelete} // Pass the delete handler
+        />
       </aside>
 
       {isTaskFormOpen && (
@@ -82,7 +106,11 @@ function App() {
             >
               &times;
             </button>
-            <TaskDetails task={selectedTask} onBack={handleBack} />
+            <TaskDetails
+              task={selectedTask}
+              onBack={handleBack}
+              onStatusUpdate={handleStatusUpdate} // Pass the status update handler
+            />
           </div>
         </div>
       )}

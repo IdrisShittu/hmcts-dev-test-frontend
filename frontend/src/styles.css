@@ -301,3 +301,41 @@ table th {
   }
 }
 
+/* Delete Task Button */
+.delete-task-button {
+  background-color: #dc3545; /* Red for delete */
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  margin-top: 1rem;
+}
+
+.delete-task-button:hover {
+  background-color: #c82333;
+}
+
+.delete-task-button:active {
+  background-color: #a71d2a;
+}
+
+/* Status Update */
+.status-update {
+  margin-top: 1rem;
+}
+
+.status-update label {
+  font-weight: bold;
+  margin-right: 0.5rem;
+}
+
+.status-update select {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
