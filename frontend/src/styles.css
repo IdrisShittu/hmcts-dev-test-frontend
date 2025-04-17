@@ -1,4 +1,3 @@
-/* General layout */
 body {
   font-family: Arial, sans-serif;
   margin: 0;
@@ -6,7 +5,6 @@ body {
   background-color: #f4f4f4;
 }
 
-/* Header */
 header {
   background-color: #333;
   color: #fff;
@@ -14,12 +12,10 @@ header {
   text-align: center;
 }
 
-/* Main content */
 main {
   padding: 2rem;
 }
 
-/* Form styling */
 form {
   background: #fff;
   padding: 1rem;
@@ -67,7 +63,6 @@ form button:hover {
   background-color: #0056b3;
 }
 
-/* Table styling */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -86,7 +81,6 @@ table th {
   font-weight: bold;
 }
 
-/* Task List Heading */
 .task-list-heading {
   font-size: 1.8rem;
   margin-bottom: 1.5rem;
@@ -94,14 +88,12 @@ table th {
   color: #333;
 }
 
-/* No Tasks Message */
 .no-tasks-message {
   text-align: center;
   font-size: 1.2rem;
   color: #888;
 }
 
-/* Task List Container */
 .task-list {
   display: flex;
   flex-wrap: wrap;
@@ -110,7 +102,6 @@ table th {
   padding: 1rem;
 }
 
-/* Task Card */
 .task-card {
   background: #fff;
   border: 1px solid #ddd;
@@ -126,28 +117,28 @@ table th {
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* Task Title */
 .task-title {
   font-size: 1.4rem;
   margin-bottom: 0.8rem;
   color: #222;
   font-weight: bold;
-  white-space: nowrap; /* Prevent wrapping */
-  overflow: hidden; /* Hide overflowing text */
-  text-overflow: ellipsis; /* Add ellipsis for overflowing text */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-/* Task Description */
 .task-description {
-  font-size: 1.2rem;
+  font-size: 1.0rem;
   margin-bottom: 1rem;
   color: #555;
   line-height: 1.6;
-  word-wrap: break-word; /* Allow breaking long words */
-  overflow-wrap: break-word; /* Ensure compatibility with modern browsers */
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 3rem;
 }
 
-/* Task Status */
 .task-status {
   font-size: 0.95rem;
   margin-bottom: 0.5rem;
@@ -155,21 +146,18 @@ table th {
   font-weight: bold;
 }
 
-/* Task Dates */
 .task-dates {
   font-size: 0.9rem;
   margin-bottom: 0.5rem;
   color: #666;
 }
 
-/* Add subtle dividers between sections */
 .task-card p + p {
   border-top: 1px solid #eee;
   padding-top: 0.5rem;
   margin-top: 0.5rem;
 }
 
-/* Center the Create Task Button */
 .create-task-button-container {
   display: flex;
   justify-content: center;
@@ -203,7 +191,6 @@ table th {
   transform: translateY(0);
 }
 
-/* Modal Overlay */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -217,7 +204,6 @@ table th {
   z-index: 1000;
 }
 
-/* Modal Content */
 .modal-content {
   background: #fff;
   padding: 2rem;
@@ -228,7 +214,6 @@ table th {
   position: relative;
 }
 
-/* Close Modal Button */
 .close-modal-button {
   position: absolute;
   top: 10px;
@@ -244,7 +229,6 @@ table th {
   color: #000;
 }
 
-/* Close Button */
 .close-button {
   background-color: #dc3545;
   color: #fff;
@@ -265,18 +249,17 @@ table th {
   background-color: #a71d2a;
 }
 
-/* Toast Notification */
 .toast {
   position: fixed;
-  top: 1rem; /* Position at the top center */
+  top: 1rem;
   left: 50%;
   transform: translateX(-50%);
-  background-color: #28a745; /* Green for success */
+  background-color: #28a745;
   color: #fff;
   padding: 1rem 2rem;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  z-index: 2000; /* Ensure it appears above other elements */
+  z-index: 2000;
   text-align: center;
   font-size: 1rem;
   animation: fadeInOut 3s ease-in-out;
@@ -301,9 +284,8 @@ table th {
   }
 }
 
-/* Delete Task Button */
 .delete-task-button {
-  background-color: #dc3545; /* Red for delete */
+  background-color: #dc3545;
   color: #fff;
   border: none;
   padding: 0.5rem 1rem;
@@ -321,7 +303,6 @@ table th {
   background-color: #a71d2a;
 }
 
-/* Status Update */
 .status-update {
   margin-top: 1rem;
 }
@@ -342,16 +323,15 @@ table th {
 .status-update-message {
   margin-top: 0.5rem;
   font-size: 0.9rem;
-  color: #007bff; /* Blue for loading */
+  color: #007bff;
 }
 
 .status-update-error {
   margin-top: 0.5rem;
   font-size: 0.9rem;
-  color: #dc3545; /* Red for errors */
+  color: #dc3545;
 }
 
-/* Loading Spinner */
 .loading-spinner {
   border: 4px solid #f3f3f3;
   border-top: 4px solid #007bff;
@@ -372,7 +352,6 @@ table th {
   }
 }
 
-/* Status Dropdown */
 .status-dropdown {
   margin-top: 1rem;
   padding: 0.5rem;
@@ -381,4 +360,3 @@ table th {
   font-size: 0.9rem;
   cursor: pointer;
 }
-
