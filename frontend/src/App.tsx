@@ -1,24 +1,121 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import TaskList from './components/TaskList';
+import TaskForm from './components/TaskForm';
+import TaskDetails from './components/TaskDetails';
+import Toast from './components/Toast'; // Import the Toast component
+import { Task } from './models/Task';
+import { taskService } from './services/taskService';
 
 function App() {
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
+  const [isTaskFormOpen, setIsTaskFormOpen] = useState(false);
+  const [toastMessage, setToastMessage] = useState<string | null>(null); // Add toast message state
+
+  useEffect(() => {
+    const fetchTasks = async () => {
+      try {
+        const fetchedTasks = await taskService.getAllTasks();
+        setTasks(fetchedTasks);
+      } catch (error) {
+        console.error('Failed to fetch tasks:', error);
+      }
+    };
+
+    fetchTasks();
+  }, []);
+
+  const addTask = async (newTask: Task) => {
+    try {
+      const createdTask = await taskService.create(newTask); // Save the task to the backend
+      setTasks((prevTasks: Task[]) => [...prevTasks, createdTask]);
+      setIsTaskFormOpen(false);
+      setToastMessage('Task created successfully!'); // Show success toast
+    } catch (error) {
+      console.error('Failed to create task:', error);
+      setToastMessage('Failed to create task.'); // Show failure toast
+    }
+  };
+
+  const handleTaskDelete = async (taskId: number) => {
+    try {
+      await taskService.delete(taskId); // Call the backend API to delete the task
+      setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId)); // Update the task list
+      setToastMessage('Task deleted successfully!'); // Show success toast
+    } catch (error) {
+      console.error('Failed to delete task:', error);
+      setToastMessage('Failed to delete task.'); // Show failure toast
+    }
+  };
+
+  const handleStatusUpdate = (updatedTask: Task) => {
+    setTasks((prevTasks) =>
+      prevTasks.map((task) =>
+        task.id === updatedTask.id ? updatedTask : task
+      )
+    );
+    setToastMessage('Task status updated successfully!');
+  };
+
+  const handleTaskClick = (task: Task) => {
+    setSelectedTask(task);
+  };
+
+  const handleBack = () => {
+    setSelectedTask(null);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app-container">
+      <aside className="task-list-container">
+        <div className="create-task-button-container">
+          <button
+            className="create-task-button"
+            onClick={() => setIsTaskFormOpen(true)}
+          >
+            Create Task
+          </button>
+        </div>
+        <TaskList
+          tasks={tasks}
+          onTaskClick={handleTaskClick}
+          onTaskDelete={handleTaskDelete} // Pass the delete handler
+        />
+      </aside>
+
+      {isTaskFormOpen && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <button
+              className="close-modal-button"
+              onClick={() => setIsTaskFormOpen(false)}
+            >
+              &times;
+            </button>
+            <TaskForm onTaskCreated={addTask} />
+          </div>
+        </div>
+      )}
+
+      {selectedTask && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <button
+              className="close-modal-button"
+              onClick={handleBack}
+            >
+              &times;
+            </button>
+            <TaskDetails
+              task={selectedTask}
+              onBack={handleBack}
+              onStatusUpdate={handleStatusUpdate} // Pass the status update handler
+            />
+          </div>
+        </div>
+      )}
+
+      {toastMessage && <Toast message={toastMessage} onClose={() => setToastMessage(null)} />}
     </div>
   );
 }
