@@ -5,21 +5,24 @@ import { taskService } from '../services/taskService';
 interface TaskDetailsProps {
   task: Task;
   onBack: () => void;
-  onStatusUpdate: (updatedTask: Task) => void; // Callback to notify parent of status update
+  onStatusUpdate: (updatedTask: Task) => void;
 }
 
 const TaskDetails: React.FC<TaskDetailsProps> = ({ task, onBack, onStatusUpdate }) => {
-  const [currentTask, setCurrentTask] = useState(task); // Local state for the task
+  const [currentTask, setCurrentTask] = useState(task);
   const [updating, setUpdating] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleStatusChange = async (newStatus: string) => {
     setUpdating(true);
+    setError(null);
     try {
       const updatedTask = await taskService.updateStatus(currentTask.id, newStatus);
-      setCurrentTask(updatedTask); // Update the local state with the new task data
-      onStatusUpdate(updatedTask); // Notify the parent component of the updated task
+      setCurrentTask(updatedTask);
+      onStatusUpdate(updatedTask);
     } catch (error) {
       console.error('Failed to update task status:', error);
+      setError('Failed to update task status. Please try again.');
     } finally {
       setUpdating(false);
     }
@@ -53,6 +56,8 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ task, onBack, onStatusUpdate 
           <option value="IN_PROGRESS">In Progress</option>
           <option value="COMPLETED">Completed</option>
         </select>
+        {updating && <p className="status-update-message">Updating status...</p>}
+        {error && <p className="status-update-error">{error}</p>}
       </div>
     </div>
   );

@@ -4,8 +4,8 @@ import { Task } from '../models/Task';
 
 interface TaskListProps {
   tasks: Task[];
-  onTaskClick: (task: Task) => void; // Callback for task click
-  onTaskDelete: (taskId: number) => void; // Callback for task deletion
+  onTaskClick: (task: Task) => void;
+  onTaskDelete: (taskId: number) => void;
 }
 
 const TaskList: React.FC<TaskListProps> = ({ tasks, onTaskClick, onTaskDelete }) => {
@@ -20,8 +20,8 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onTaskClick, onTaskDelete })
             <div
               className="task-card"
               key={task.id}
-              onClick={() => onTaskClick(task)} // Handle click event
-              style={{ cursor: 'pointer' }} // Add pointer cursor for better UX
+              onClick={() => onTaskClick(task)}
+              style={{ cursor: 'pointer' }}
             >
               <h3 className="task-title">{task.title}</h3>
               <p className="task-description">{task.description}</p>
@@ -34,8 +34,8 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onTaskClick, onTaskDelete })
               <button
                 className="delete-task-button"
                 onClick={(e) => {
-                  e.stopPropagation(); // Prevent the click event from propagating to the card
-                  onTaskDelete(task.id); // Call the delete handler
+                  e.stopPropagation();
+                  onTaskDelete(task.id);
                 }}
               >
                 Delete

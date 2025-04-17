@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import TaskList from './components/TaskList';
 import TaskForm from './components/TaskForm';
 import TaskDetails from './components/TaskDetails';
-import Toast from './components/Toast'; // Import the Toast component
+import Toast from './components/Toast';
 import { Task } from './models/Task';
 import { taskService } from './services/taskService';
 
@@ -10,7 +10,8 @@ function App() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const [isTaskFormOpen, setIsTaskFormOpen] = useState(false);
-  const [toastMessage, setToastMessage] = useState<string | null>(null); // Add toast message state
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true); // Add loading state
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -19,6 +20,8 @@ function App() {
         setTasks(fetchedTasks);
       } catch (error) {
         console.error('Failed to fetch tasks:', error);
+      } finally {
+        setLoading(false); // Set loading to false after fetching tasks
       }
     };
 
@@ -27,24 +30,24 @@ function App() {
 
   const addTask = async (newTask: Task) => {
     try {
-      const createdTask = await taskService.create(newTask); // Save the task to the backend
+      const createdTask = await taskService.create(newTask);
       setTasks((prevTasks: Task[]) => [...prevTasks, createdTask]);
       setIsTaskFormOpen(false);
-      setToastMessage('Task created successfully!'); // Show success toast
+      setToastMessage('Task created successfully!');
     } catch (error) {
       console.error('Failed to create task:', error);
-      setToastMessage('Failed to create task.'); // Show failure toast
+      setToastMessage('Failed to create task.');
     }
   };
 
   const handleTaskDelete = async (taskId: number) => {
     try {
-      await taskService.delete(taskId); // Call the backend API to delete the task
-      setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId)); // Update the task list
-      setToastMessage('Task deleted successfully!'); // Show success toast
+      await taskService.delete(taskId);
+      setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId));
+      setToastMessage('Task deleted successfully!');
     } catch (error) {
       console.error('Failed to delete task:', error);
-      setToastMessage('Failed to delete task.'); // Show failure toast
+      setToastMessage('Failed to delete task.');
     }
   };
 
@@ -76,11 +79,15 @@ function App() {
             Create Task
           </button>
         </div>
-        <TaskList
-          tasks={tasks}
-          onTaskClick={handleTaskClick}
-          onTaskDelete={handleTaskDelete} // Pass the delete handler
-        />
+        {loading ? (
+          <div className="loading-spinner"></div> // Show loading spinner while fetching tasks
+        ) : (
+          <TaskList
+            tasks={tasks}
+            onTaskClick={handleTaskClick}
+            onTaskDelete={handleTaskDelete}
+          />
+        )}
       </aside>
 
       {isTaskFormOpen && (
@@ -109,7 +116,7 @@ function App() {
             <TaskDetails
               task={selectedTask}
               onBack={handleBack}
-              onStatusUpdate={handleStatusUpdate} // Pass the status update handler
+              onStatusUpdate={handleStatusUpdate}
             />
           </div>
         </div>
