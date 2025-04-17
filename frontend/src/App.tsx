@@ -75,8 +75,14 @@ function App() {
     }
   };
 
-  const handleTaskClick = (task: Task) => {
-    setSelectedTask(task);
+  const handleTaskClick = async (task: Task) => {
+    try {
+      const detailedTask = await taskService.getById(task.id); // Fetch task details by ID
+      setSelectedTask(detailedTask); // Set the detailed task in state
+    } catch (error) {
+      console.error('Failed to fetch task details:', error);
+      setToastMessage('Failed to load task details.');
+    }
   };
 
   const handleBack = () => {
