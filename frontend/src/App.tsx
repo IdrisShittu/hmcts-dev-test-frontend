@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import TaskList from './components/TaskList';
 import TaskForm from './components/TaskForm';
 import TaskDetails from './components/TaskDetails';
+import Toast from './components/Toast'; // Import the Toast component
 import { Task } from './models/Task';
 import { taskService } from './services/taskService';
 
@@ -9,6 +10,7 @@ function App() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const [isTaskFormOpen, setIsTaskFormOpen] = useState(false);
+  const [toastMessage, setToastMessage] = useState<string | null>(null); // Add toast message state
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -23,9 +25,16 @@ function App() {
     fetchTasks();
   }, []);
 
-  const addTask = (newTask: Task) => {
-    setTasks((prevTasks: Task[]) => [...prevTasks, newTask]);
-    setIsTaskFormOpen(false);
+  const addTask = async (newTask: Task) => {
+    try {
+      const createdTask = await taskService.create(newTask); // Save the task to the backend
+      setTasks((prevTasks: Task[]) => [...prevTasks, createdTask]);
+      setIsTaskFormOpen(false);
+      setToastMessage('Task created successfully!'); // Show success toast
+    } catch (error) {
+      console.error('Failed to create task:', error);
+      setToastMessage('Failed to create task.'); // Show failure toast
+    }
   };
 
   const handleTaskClick = (task: Task) => {
@@ -77,6 +86,8 @@ function App() {
           </div>
         </div>
       )}
+
+      {toastMessage && <Toast message={toastMessage} onClose={() => setToastMessage(null)} />}
     </div>
   );
 }

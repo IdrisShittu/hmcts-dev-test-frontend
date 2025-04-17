@@ -132,6 +132,9 @@ table th {
   margin-bottom: 0.8rem;
   color: #222;
   font-weight: bold;
+  white-space: nowrap; /* Prevent wrapping */
+  overflow: hidden; /* Hide overflowing text */
+  text-overflow: ellipsis; /* Add ellipsis for overflowing text */
 }
 
 /* Task Description */
@@ -140,6 +143,8 @@ table th {
   margin-bottom: 1rem;
   color: #555;
   line-height: 1.6;
+  word-wrap: break-word; /* Allow breaking long words */
+  overflow-wrap: break-word; /* Ensure compatibility with modern browsers */
 }
 
 /* Task Status */
@@ -259,3 +264,40 @@ table th {
 .close-button:active {
   background-color: #a71d2a;
 }
+
+/* Toast Notification */
+.toast {
+  position: fixed;
+  top: 1rem; /* Position at the top center */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #28a745; /* Green for success */
+  color: #fff;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 2000; /* Ensure it appears above other elements */
+  text-align: center;
+  font-size: 1rem;
+  animation: fadeInOut 3s ease-in-out;
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-20px);
+  }
+  10% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  90% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-20px);
+  }
+}
+
