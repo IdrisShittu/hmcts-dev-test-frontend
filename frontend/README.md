@@ -25,8 +25,8 @@ A **React + TypeScript** based frontend application for managing tasks — allow
 ### 1. Clone the repository
 
 ```bash
-git clone <repository-url>
-cd frontend
+git clone https://github.com/IdrisShittu/hmcts-dev-test-frontend.git
+cd hmcts-dev-test-frontend/frontend
 ```
 
 ### 2. Install dependencies
@@ -96,6 +96,6 @@ src/styles.css
 
 ---
 
-## 🔗 Related Projects
+## 🔗 Task Management Backend
 
-- [Task Management Backend (Spring Boot)](link-to-backend-repo-if-any)
+- [Task Management Backend (Spring Boot)](https://github.com/IdrisShittu/hmcts-dev-test-backend.git)
