@@ -60,6 +60,21 @@ function App() {
     setToastMessage('Task status updated successfully!');
   };
 
+  const updateTaskStatus = async (taskId: number, newStatus: string) => {
+    try {
+      const updatedTask = await taskService.updateStatus(taskId, newStatus); // Call the backend endpoint
+      setTasks((prevTasks) =>
+        prevTasks.map((task) =>
+          task.id === taskId ? { ...task, status: updatedTask.status } : task
+        )
+      );
+      setToastMessage('Task status updated successfully!'); // Show success toast
+    } catch (error) {
+      console.error('Failed to update task status:', error);
+      setToastMessage('Failed to update task status.'); // Show failure toast
+    }
+  };
+
   const handleTaskClick = (task: Task) => {
     setSelectedTask(task);
   };
@@ -86,6 +101,7 @@ function App() {
             tasks={tasks}
             onTaskClick={handleTaskClick}
             onTaskDelete={handleTaskDelete}
+            onUpdateStatus={updateTaskStatus} // Pass the status update handler
           />
         )}
       </aside>
